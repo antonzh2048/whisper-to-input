@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
+    android:settingsActivity="com.example.whispertoinput.MainActivity"
     android:supportsSwitchingToNextInputMethod="true">
-    <subtype android:imeSubtypeMode="keyboard" />
-    <subtype android:imeSubtypeMode="voice" />
+
+    <!-- Голосовой подтип первым. overridesImplicitlyEnabledSubtype принудительно
+         включает его, иначе getShortcutInputMethodsAndSubtypes() его не видит.
+         isAuxiliary=false, чтобы клавиатура не пропала из системного переключателя. -->
+    <subtype
+        android:label="@string/app_name"
+        android:imeSubtypeMode="voice"
+        android:imeSubtypeLocale="en_US"
+        android:isAuxiliary="false"
+        android:overridesImplicitlyEnabledSubtype="true" />
+
 </input-method>
