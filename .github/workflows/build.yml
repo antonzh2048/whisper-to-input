@@ -1,0 +1,37 @@
+name: Build APK
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # Постоянный debug-ключ из секрета, чтобы обновления ставились поверх
+      - name: Restore debug keystore
+        env:
+          KS: ${{ secrets.DEBUG_KEYSTORE_B64 }}
+        if: env.KS != ''
+        run: |
+          mkdir -p ~/.android
+          echo "$KS" | base64 -d > ~/.android/debug.keystore
+
+      - name: Build
+        working-directory: android
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: whisper-to-input-voice
+          path: android/app/build/outputs/apk/debug/app-debug.apk
