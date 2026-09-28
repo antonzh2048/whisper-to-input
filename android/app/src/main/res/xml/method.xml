@@ -2,4 +2,5 @@
 <input-method xmlns:android="http://schemas.android.com/apk/res/android"
     android:supportsSwitchingToNextInputMethod="true">
     <subtype android:imeSubtypeMode="keyboard" />
+    <subtype android:imeSubtypeMode="voice" />
 </input-method>
